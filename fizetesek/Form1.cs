@@ -19,8 +19,6 @@ namespace fizetesek
             public int belepes;
             public int ber;
         }
-
-       
         public static string[] Beolvaso(string fileName)
         {
             string[] a = new string[170];
@@ -40,9 +38,10 @@ namespace fizetesek
                 counter++;
             }
 
+            folyam.Close();
+
             return a;   
         }
-
         public DolgozoAdatok dolgozokFeltoltese = new DolgozoAdatok();
         public List<DolgozoAdatok> dolgozok = new List<DolgozoAdatok>();
         public void Rendezo()
@@ -65,13 +64,8 @@ namespace fizetesek
                 dolgozok.Add(dolgozokFeltoltese);
             }
         }
-
         public string Max()
         {
-
-
-            Rendezo();
-
             int seged = 0;
             int seged2 = 0;
             for (int i = 0; i < dolgozok.Count; i++)
@@ -88,13 +82,65 @@ namespace fizetesek
 
             return dolgozok[seged2].nev;
         }
+        public int Reszleg(string megnevezes)
+        {
+            int counter = 0;
+            for (int i = 0; i < dolgozok.Count; i++)
+            {
+                if (dolgozok[i].reszleg == megnevezes)
+                {
+                    counter++;
+                }
+            }
+
+            return counter;
+        }
+
+        public Dictionary<string, int> Reszlegek = new Dictionary<string, int>();
+        public void MindenReszleg()
+        {
+            for (int i = 0; i < dolgozok.Count; i++)
+            {
+                int counter = 0;
+                if (!Reszlegek.ContainsKey(dolgozok[i].reszleg))
+                {
+                    string a = dolgozok[i].reszleg;
+                    for (int j = 0; j < dolgozok.Count; j++)
+                    {
+                        if (dolgozok[j].reszleg == a)
+                        {
+                            counter++;
+                        }
+                    }
+                    Reszlegek.Add(a, counter);
+                }
+            }
+
+            listBox1.DataSource = new BindingSource(Reszlegek, null);
+        }
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Rendezo();
+            label1.Text = "";
+
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            label1.Text += $"{Max()}";
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            label1.Text += $" Run Time: {elapsedMs}\n";
+
+            watch = System.Diagnostics.Stopwatch.StartNew();
+            label1.Text += $"{Reszleg("pénzügy")}";
+            elapsedMs = watch.ElapsedMilliseconds;
+            label1.Text += $" Run Time: {elapsedMs}\n";
+
+            MindenReszleg();
+
             
-            label1.Text = $"{Max()}";
-
-
+            
         }
     }
 }
