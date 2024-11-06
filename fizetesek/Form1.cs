@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace fizetesek
 {
@@ -119,28 +120,98 @@ namespace fizetesek
             listBox1.DataSource = new BindingSource(Reszlegek, null);
         }
 
+        public double Atlag()
+        {
+            return dolgozok.Average(x => x.ber);
+        }
+
+        public void Grupy1()
+        {
+            dolgozok.GroupBy(x => x.reszleg).ToList().ForEach(x => listBox1.Items.Add(x.Key + " " + x.Count()));
+        }
+
+        public void Grupy2()
+        {
+            var eredmeny = from x in dolgozok
+                           group x by x.reszleg;
+
+
+            foreach (var x in eredmeny)
+            {
+                listBox1.Items.Add(x.Key + " " + x.Count());
+            }
+        }
+
+        public void Sumthing()
+        {
+            //reszlegenkent a legjobban kereso dolgozok neve
+
+            
+
+        }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
             Rendezo();
-            label1.Text = "";
 
             var watch = System.Diagnostics.Stopwatch.StartNew();
-            label1.Text += $"{Max()}";
+            label1.Text = $"{Max()}\n";
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            label1.Text += $" Run Time: {elapsedMs}\n";
+            label2.Text = $"Run Time: {elapsedMs}\n";
 
             watch = System.Diagnostics.Stopwatch.StartNew();
-            label1.Text += $"{Reszleg("pénzügy")}";
+            label1.Text += $"{Reszleg("pénzügy")}\n";
+            watch.Stop();
             elapsedMs = watch.ElapsedMilliseconds;
-            label1.Text += $" Run Time: {elapsedMs}\n";
+            label2.Text += $"Run Time: {elapsedMs}\n";
 
-            MindenReszleg();
+            watch = System.Diagnostics.Stopwatch.StartNew();
+            label1.Text += $"Átlag bér: {Atlag()}\n";
+            watch.Stop();
+            elapsedMs = watch.ElapsedMilliseconds;
+            label2.Text += $"Run Time: {elapsedMs}\n";
 
+            watch = System.Diagnostics.Stopwatch.StartNew();
+            label1.Text += $"MindenReszleg();\n";
+            //MindenReszleg();
+            watch.Stop();
+            elapsedMs = watch.ElapsedMilliseconds;
+            label2.Text += $"Run Time: {elapsedMs}\n";
+
+            watch = System.Diagnostics.Stopwatch.StartNew();
+            label1.Text += $"Grupy1();\n";
+            //Grupy1();
+            watch.Stop();
+            elapsedMs = watch.ElapsedMilliseconds;
+            label2.Text += $"Run Time: {elapsedMs}\n";
+
+            watch = System.Diagnostics.Stopwatch.StartNew();
+            label1.Text += $"Grupy2();\n";
+            Grupy2();
+            watch.Stop();
+            elapsedMs = watch.ElapsedMilliseconds;
+            label2.Text += $"Run Time: {elapsedMs}\n";
             
             
+            
+
+            
+
+
+            
+
+
+
+
+
+
+
+
+
+            
+
         }
     }
 }
