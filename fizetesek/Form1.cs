@@ -125,16 +125,14 @@ namespace fizetesek
             return dolgozok.Average(x => x.ber);
         }
 
-        public void Grupy1()
+        public void GroupBy1()
         {
             dolgozok.GroupBy(x => x.reszleg).ToList().ForEach(x => listBox1.Items.Add(x.Key + " " + x.Count()));
         }
 
-        public void Grupy2()
+        public void GroupBy2()
         {
-            var eredmeny = from x in dolgozok
-                           group x by x.reszleg;
-
+            var eredmeny = from x in dolgozok group x by x.reszleg;
 
             foreach (var x in eredmeny)
             {
@@ -145,8 +143,6 @@ namespace fizetesek
         public void Sumthing()
         {
             //reszlegenkent a legjobban kereso dolgozok neve
-
-            
 
         }
 
@@ -181,15 +177,15 @@ namespace fizetesek
             label2.Text += $"Run Time: {elapsedMs}\n";
 
             watch = System.Diagnostics.Stopwatch.StartNew();
-            label1.Text += $"Grupy1();\n";
-            //Grupy1();
+            label1.Text += $"GroupBy1();\n";
+            //GroupBy1();
             watch.Stop();
             elapsedMs = watch.ElapsedMilliseconds;
             label2.Text += $"Run Time: {elapsedMs}\n";
 
             watch = System.Diagnostics.Stopwatch.StartNew();
-            label1.Text += $"Grupy2();\n";
-            Grupy2();
+            label1.Text += $"GroupBy2();\n";
+            GroupBy2();
             watch.Stop();
             elapsedMs = watch.ElapsedMilliseconds;
             label2.Text += $"Run Time: {elapsedMs}\n";
