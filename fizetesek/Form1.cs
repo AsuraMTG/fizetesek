@@ -140,12 +140,31 @@ namespace fizetesek
             }
         }
 
-        public void Sumthing()
+        public void DoSumthing()
         {
-            //reszlegenkent a legjobban kereso dolgozok neve
+            double fCounter = 0;
+            double fAverage = 0;
+            double nCounter = 0;
+            double nAverage = 0;
+            for (int i = 0; i < dolgozok.Count; i++)
+            {
+                if (dolgozok[i].reszleg == "asztalosműhely")
+                {
+                    if (dolgozok[i].neme == "férfi")
+                    {
+                        fCounter++;
+                        fAverage += dolgozok[i].ber;
+                    }
+                    else
+                    {
+                        nCounter++;
+                        nAverage += dolgozok[i].ber;
+                    }
 
+                }
+            }
+            label3.Text = $"F: {fAverage / fCounter}\nN: {nAverage / nCounter}\n{(fAverage / fCounter) / (nAverage / nCounter)}";
         }
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -189,25 +208,9 @@ namespace fizetesek
             watch.Stop();
             elapsedMs = watch.ElapsedMilliseconds;
             label2.Text += $"Run Time: {elapsedMs}\n";
+
+            DoSumthing();
             
-            
-            
-
-            
-
-
-            
-
-
-
-
-
-
-
-
-
-            
-
         }
     }
 }
